@@ -1,0 +1,58 @@
+<!-- 
+    Javascript to perform the checksum check on a student number
+    entered into a HTML form.
+    Copyright (C) 2012  JP Meijers
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+-->
+<!--
+Changelog:
+Get characters with slice and not like an array. Array way does not work in IE6.
+-->
+
+<html>
+
+<head>
+<script type="text/javascript">
+function checkNr(text)
+{
+	if (text.length == 8){
+		var sum = parseInt(text.slice(0,1),10)*8;
+		sum=sum+parseInt(text.slice(1,2),10)*7;
+		sum=sum+parseInt(text.slice(2,3),10)*6;
+		sum=sum+parseInt(text.slice(3,4),10)*5;
+		sum=sum+parseInt(text.slice(4,5),10)*4;
+		sum=sum+parseInt(text.slice(5,6),10)*3;
+		sum=sum+parseInt(text.slice(6,7),10)*2;
+		sum=sum+parseInt(text.slice(7,8),10); 
+//becomes NaN if one of them is a letter
+		sum = sum%11; //NaN
+		if (sum==0) document.getElementById('stdnr').style.backgroundColor = 'lightgreen';
+		else document.getElementById('stdnr').style.backgroundColor = 'red'; //if NaN falls through to here
+	}
+	else if (text.length > 8) document.getElementById('stdnr').style.backgroundColor = 'red';
+	else document.getElementById('stdnr').style.backgroundColor = 'white';
+}
+</script>
+</head>
+
+<body>
+<form action="" method="post">
+ <p>Student number: <input type="text" id="stdnr" name="id" onclick="checkNr(this.value)" OnKeyUp="checkNr(this.value)" onChange="checkNr(this.value)" /></p>
+ <p><input type="submit" value="Submit query"/></p>
+</form>
+</body>
+
+</html>
